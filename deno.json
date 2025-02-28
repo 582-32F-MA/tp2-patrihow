@@ -1,0 +1,28 @@
+{
+    "fmt": {
+        "indentWidth": 4,
+        "exclude": [
+            "*.html"
+        ]
+    },
+    "lint": {
+        "exclude": [
+            "*.js"
+        ],
+        "rules": {
+            "include": [
+                "explicit-function-return-type"
+            ],
+            "exclude": [
+                "ban-ts-comment"
+            ]
+        }
+    },
+    "compilerOptions": {
+        "strict": true,
+        "noUnusedLocals": true,
+        "allowUnreachableCode": false,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true
+    }
+}

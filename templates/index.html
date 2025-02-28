@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="/static/scripts/main.js" type="module"></script>
+        <link href="/static/css/style.css" rel="stylesheet" />
+        <title>Ghibli Studio Catalogue</title>
+    </head>
+    <body>
+        <header>
+            <form>
+                <fieldset id="view">
+                    <label>
+                        View
+                        <select name="view">
+                            <option
+                                value="grid"
+                                {% if request.args.get("view") == "grid" %}
+                                selected
+                                {% endif %}
+                            >
+                                Grid
+                            </option>
+                            <option
+                                value="list"
+                                {% if request.args.get("view") == "list" %}
+                                selected
+                                {% endif %}
+                            >
+                                List
+                            </option>
+                        </select>
+                    </label>
+                </fieldset>
+                <fieldset id="search">
+                    <label>
+                        Search
+                        <input type="search" name="search" value="{{ request.args.get("search") or "" }}" />
+                    </label>
+                </fieldset>
+                <fieldset id="sort">
+                    <label>
+                        Sort
+                        <select name="sort">
+                            <option
+                                value="title-asc"
+                                {% if request.args.get("sort") == "title-asc" %}
+                                selected
+                                {% endif %}
+                            >
+                                Title ascending
+                            </option>
+                            <option
+                                value="title-desc"
+                                {% if request.args.get("sort") == "title-desc" %}
+                                selected
+                                {% endif %}
+                            >
+                                Title descending
+                            </option>
+                            <option
+                                value="year-asc"
+                                {% if request.args.get("sort") == "year-asc" %}
+                                selected
+                                {% endif %}
+                            >
+                                Year ascending
+                            </option>
+                            <option
+                                value="year-desc"
+                                {% if request.args.get("sort") == "year-desc" %}
+                                selected
+                                {% endif %}
+                            >
+                                Year descending
+                            </option>
+                        </select>
+                    </label>
+                </fieldset>
+                <fieldset id="filter">
+                    <legend>Filter</legend>
+                    {% for director in directors %}
+                    <label>
+                        <input
+                            type="checkbox"
+                            value="{{ director }}"
+                            name="filter"
+                            {% if director in request.args.getlist("filter") %}
+                            checked
+                            {% endif %}
+                        />
+                        {{ director }}
+                    </label>
+                    {% endfor %}
+                </fieldset>
+                <button>Apply</button>
+            </form>
+        </header>
+        <main
+            class="{{ request.args.get("view") or "grid" }}"
+        >
+            <ul>
+                {% for film in films %}
+                <li>
+                    <article>
+                        <img src="{{ film.img }}" />
+                        <p>{{ film.title }}</p>
+                        <dl>
+                            <dt>Release date</dt>
+                            <dd>{{ film.year }}</dd>
+                            <dt>Director</dt>
+                            <dd>{{ film.director }}</dd>
+                        </dl>
+                    </article>
+                </li>
+                {% endfor %}
+            </ul>
+        </main>
+    </body>
+</html>
